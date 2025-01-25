@@ -14,6 +14,7 @@
 		D5DF5D362D453AFE0090620C /* iosgameTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF5D352D453AFE0090620C /* iosgameTests.swift */; };
 		D5DF5D402D453AFE0090620C /* iosgameUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF5D3F2D453AFE0090620C /* iosgameUITests.swift */; };
 		D5DF5D422D453AFE0090620C /* iosgameUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF5D412D453AFE0090620C /* iosgameUITestsLaunchTests.swift */; };
+		D5DF5D4F2D453E730090620C /* landingPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5DF5D4E2D453E730090620C /* landingPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +45,7 @@
 		D5DF5D3B2D453AFE0090620C /* iosgameUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iosgameUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D5DF5D3F2D453AFE0090620C /* iosgameUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosgameUITests.swift; sourceTree = "<group>"; };
 		D5DF5D412D453AFE0090620C /* iosgameUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iosgameUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		D5DF5D4E2D453E730090620C /* landingPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = landingPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -96,6 +98,7 @@
 			children = (
 				D5DF5D242D453AF80090620C /* iosgameApp.swift */,
 				D5DF5D262D453AF80090620C /* ContentView.swift */,
+				D5DF5D4E2D453E730090620C /* landingPage.swift */,
 				D5DF5D282D453AFD0090620C /* Assets.xcassets */,
 				D5DF5D2A2D453AFD0090620C /* Preview Content */,
 			);
@@ -259,6 +262,7 @@
 			files = (
 				D5DF5D272D453AF80090620C /* ContentView.swift in Sources */,
 				D5DF5D252D453AF80090620C /* iosgameApp.swift in Sources */,
+				D5DF5D4F2D453E730090620C /* landingPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
