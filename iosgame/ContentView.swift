@@ -1,140 +1,58 @@
 import SwiftUI
 
-struct ContentView: View {
-    
-    @State private var squares: [Square]? = nil
-    @State private var firstTappedIndex: Int? = nil
-    @State private var isGameOver: Bool = false
-    @State private var gameResult: String = ""
-    @State private var canShuffle: Bool = false
-    
-    
-    struct Square {
-        var color: Color
-    }
+struct GameView: View {
+    @State private var game = GameModel.generateNewGame()
+    @State private var selectedColors = [Color]()
     
     var body: some View {
         VStack {
-            Text("Match the Colors!")
+            Text("Time: \(game.timeRemaining)")
                 .font(.title)
                 .padding()
             
+            Text("Score: \(game.score)")
+                .font(.title2)
             
-            if let squares = squares {
-                LazyVGrid(columns: [GridItem(), GridItem(), GridItem()]) {
-                    ForEach(0..<9) { index in
-                        Button(action: {
-                            handleTileTap(index: index)
-                        }) {
-                            Rectangle()
-                                .foregroundColor(squares[index].color)
-                                .frame(width: 100, height: 100)
-                                .cornerRadius(10)
+            // 3x3 Grid
+            LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())], spacing: 10) {
+                ForEach(0..<9) { index in
+                    let color = game.colors[index]
+                    Button(action: {
+                        if game.selectedColors.contains(color) {
+                            game.score += 10
+                            if game.score > game.highestScore {
+                                game.highestScore = game.score
+                                UserDefaults.standard.set(game.highestScore, forKey: "highestScore")
+                            }
+                        } else {
+                            game.score -= 5
                         }
-                        .disabled(isGameOver)
+                    }) {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(color)
+                            .frame(width: 80, height: 80)
                     }
                 }
-                .padding()
             }
             
-            
-            if isGameOver {
-                Text(gameResult)
-                    .font(.title)
-                    .bold()
-                    .padding()
-                
-                Button("Play Again") {
-                    restartGame()
-                }
-                .font(.title2)
-                .padding()
-                .background(Color.blue)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-            }
-            
-            
-            if !isGameOver && canShuffle {
-                Button("Shuffle") {
-                    shuffleTiles()
-                }
-                .font(.title2)
-                .padding()
-                .background(Color.orange)
-                .foregroundColor(.white)
-                .cornerRadius(10)
-            }
+            Spacer()
         }
         .onAppear {
-            
-            generateRandomColors()
+            startTimer()
+        }
+        .onDisappear {
+            game.timer?.invalidate() // Stop the timer when the view disappears
         }
     }
     
-    
-    private func handleTileTap(index: Int) {
-        if let firstIndex = firstTappedIndex {
-            
-            if squares?[firstIndex].color == squares?[index].color {
-                gameResult = "You Win!"
-                canShuffle = false
+    func startTimer() {
+        game.timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { _ in
+            if game.timeRemaining > 0 {
+                game.timeRemaining -= 1
             } else {
-                gameResult = "You Lose!"
-                canShuffle = false
+                game.timer?.invalidate()
+                // End game
             }
-            isGameOver = true
-        } else {
-            // First tile tap
-            firstTappedIndex = index
-            canShuffle = false
         }
-    }
-    
-    
-    private func generateRandomColors() {
-        
-        let uniqueColors: [Color] = [.red, .green, .blue, .yellow, .purple, .orange, .pink, .gray, .teal]
-        
-        
-        let pairColor = uniqueColors.randomElement()!
-        
-        
-        var colorArray = [pairColor, pairColor]
-        
-        
-        colorArray.append(contentsOf: uniqueColors.filter { $0 != pairColor })
-        
-        
-        colorArray.shuffle()
-        
-        
-        squares = colorArray.map { Square(color: $0) }
-        canShuffle = true
-    }
-    
-    
-    private func shuffleTiles() {
-        if let squares = squares {
-            var colors = squares.map { $0.color }
-            colors.shuffle()
-            self.squares = colors.map { Square(color: $0) }
-        }
-    }
-    
-    private func restartGame() {
-        
-        squares = nil
-        firstTappedIndex = nil
-        isGameOver = false
-        gameResult = ""
-        canShuffle = false
-        generateRandomColors()
-    }
-}
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
     }
 }
